@@ -1,55 +1,36 @@
 
 
-import React, {lazy, Suspense} from 'react';
-import { BrowserRouter, Switch, Route, useHistory} from 'react-router-dom';
-import { render } from 'react-dom';
-import { makeStyles } from '@material-ui/core/styles';
+import React, {lazy, Suspense} from 'react'
+import { BrowserRouter, Switch, Route, useHistory} from 'react-router-dom'
+import { render } from 'react-dom'
+import styled from 'styled-components'
 
-import { createMuiTheme } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/styles';
+import NavBar from './components/NavBar'
+import Tree from './components/tree/Tree'
+import TreeItem from './components/tree/TreeItem'
 
-import TreeView from '@material-ui/lab/TreeView';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import TreeItem from '@material-ui/lab/TreeItem';
+import './static/styles.scss'
+import 'material-design-icons/iconfont/material-icons.css'
 
-import rawConfig from '../story-pal.config'
+import getConfig from './config'
 
+const config = getConfig()
 
-const parseConfig = (config) => {
-  return config.stories
-}
+const Page = styled.div`
+  display: flex;
+  height: 100%;
+`
 
-const config = parseConfig(rawConfig)
+const SideBar = styled.div`
+  height: 100%;
+  width: 200px;
+  margin-top: 50px;
+  border-right: 2px solid #f2f2f2;
 
-const colors = {
-  primary: '#2e75a3',
-  secondary: '#FFA750'
-}
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: colors.primary
-    },
-    secondary: {
-      main: colors.secondary,
-      contrastText: '#dc7216'
-    }
-  }
-});
-
-const useStyles = makeStyles(theme => ({
-  root: {
-  },
-  sidebar: {
-    width: '200px'
-  },
-  content: {
-    marginTop: '40px',
-    paddingTop: '10px'
-  }
-}));
+`
+const Content = styled.div`
+  margin-top: 50px;
+`
 
 
 const Home = () =>
@@ -60,7 +41,7 @@ const NotFound = () =>
   <div>URL not found!</div>
 
 
-const StoryNav = () => {
+const StoryIndex = () => {
   const history = useHistory();
 
   const nav = (path) => {
@@ -119,34 +100,34 @@ const StoryRoutes = () => {
 }
 
 const App = () => {
-  const styles = useStyles();
 
   return (
     <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <div className={styles.root}>
+      <NavBar />
 
-          <div className={styles.sidebar}>
-            <TreeView
-              className={styles.root}
-              defaultCollapseIcon={<ExpandMoreIcon />}
-              defaultExpandIcon={<ChevronRightIcon />}
-            >
-              <StoryNav/>
-            </TreeView>
-          </div>
+      <Page>
+        <SideBar>
+          <Tree>
+            <TreeItem label="button">
+              <TreeItem label="ButtonExample" />
+            </TreeItem>
+            <TreeItem label="forms">
+              <TreeItem label="demoTwo" />
+            </TreeItem>
+          </Tree>
+        </SideBar>
 
-          <div className={styles.content}>
-            <Suspense fallback={<div>loading...</div>}>
-              <Switch>
-                <Route path="/" exact component={Home} />
-                <StoryRoutes />
-                <Route path="*" component={NotFound} />
-              </Switch>
-            </Suspense>
-          </div>
-        </div>
-      </ThemeProvider>
+        <Content>
+          <Suspense fallback={<div>loading...</div>}>
+            <Switch>
+              <Route path="/" exact component={Home} />
+              <StoryRoutes />
+              <Route path="*" component={NotFound} />
+            </Switch>
+          </Suspense>
+        </Content>
+      </Page>
+
     </BrowserRouter>
   )
 };

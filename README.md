@@ -1,2 +1,8 @@
 # story-pal
-Sort of like Storybook, but built with Parcel and React.
+
+Kind of like Storybook, but built with Parcel and React.
+
+
+## Getting Started
+
+In the works.  More coming soon.
