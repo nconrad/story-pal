@@ -34,7 +34,7 @@ const Content = styled.div`
 
 
 const Home = () =>
-  <div>Story Pack!</div>
+  <div>Story Pal!</div>
 
 
 const NotFound = () =>
@@ -60,21 +60,20 @@ const StoryIndex = () => {
   return (
     <>
     {
-      Object.keys(config).map((filePrefix, i) => {
-        return (
-          <TreeItem nodeId={filePrefix} label={filePrefix} key={i}>
-            {
-              Object.keys(config[filePrefix]).map((storyName, j) =>
-                item({filePrefix, storyName, idx: j})
-              )
-            }
-          </TreeItem>
-        )
-      })
+      Object.keys(config).map((filePrefix, i) =>
+        <TreeItem nodeId={filePrefix} label={filePrefix} key={i}>
+          {
+            Object.keys(config[filePrefix]).map((storyName, j) =>
+              item({filePrefix, storyName, idx: j})
+            )
+          }
+        </TreeItem>
+      )
     }
     </>
   )
 }
+
 
 const StoryRoutes = () => {
   const getRoute = ({storyName, filePrefix, story}) => (
@@ -99,6 +98,7 @@ const StoryRoutes = () => {
   )
 }
 
+
 const App = () => {
 
   return (
@@ -108,12 +108,7 @@ const App = () => {
       <Page>
         <SideBar>
           <Tree>
-            <TreeItem label="button">
-              <TreeItem label="ButtonExample" />
-            </TreeItem>
-            <TreeItem label="forms">
-              <TreeItem label="demoTwo" />
-            </TreeItem>
+            <StoryIndex />
           </Tree>
         </SideBar>
 
