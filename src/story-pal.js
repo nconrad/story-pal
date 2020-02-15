@@ -16,29 +16,19 @@ import getConfig from './config'
 
 const config = getConfig()
 
-const Page = styled.div`
-  display: flex;
-  height: 100%;
-`
-
-const SideBar = styled.div`
-  height: 100%;
-  width: 200px;
-  margin-top: 50px;
-  border-right: 2px solid #f2f2f2;
-
-`
-const Content = styled.div`
-  margin-top: 50px;
-`
-
-
 const Home = () =>
-  <div>Story Pal!</div>
+  <Root>StoryPal!</Root>
+
+const Root = styled.div`
+  margin: 1rem;
+`
 
 
 const NotFound = () =>
-  <div>URL not found!</div>
+  <NotFoundRoot>URL not found!</NotFoundRoot>
+
+const NotFoundRoot = styled(Root)
+
 
 
 const StoryIndex = () => {
@@ -48,24 +38,24 @@ const StoryIndex = () => {
     history.push(path);
   }
 
-  const item = ({filePrefix, storyName, idx}) => (
-    <TreeItem
-      onClick={() => nav(storyName)}
-      nodeId={filePrefix + storyName}
-      key={idx}
-      label={storyName}
-    />
-  )
-
   return (
     <>
     {
       Object.keys(config).map((filePrefix, i) =>
         <TreeItem nodeId={filePrefix} label={filePrefix} key={i}>
           {
-            Object.keys(config[filePrefix]).map((storyName, j) =>
-              item({filePrefix, storyName, idx: j})
-            )
+            Object.keys(config[filePrefix]).map((storyName, j) => {
+              const path = `/${filePrefix}/${storyName}`
+
+              return (
+                <TreeItem
+                  onClick={() => nav(path)}
+                  label={storyName}
+                  key={path}
+                  nodeId={path}
+                />
+              )
+            })
           }
         </TreeItem>
       )
@@ -78,7 +68,7 @@ const StoryIndex = () => {
 const StoryRoutes = () => {
   const getRoute = ({storyName, filePrefix, story}) => (
     <Route
-      path={`/${storyName}`} exact
+      path={`/${filePrefix}/${storyName}`} exact
       component={story}
       key={filePrefix + storyName}
     />
@@ -126,5 +116,21 @@ const App = () => {
     </BrowserRouter>
   )
 };
+
+const Page = styled.div`
+  display: flex;
+  height: 100%;
+`
+
+const SideBar = styled.div`
+  height: 100%;
+  width: 200px;
+  margin-top: 50px;
+  border-right: 2px solid #f2f2f2;
+
+`
+const Content = styled.div`
+  margin-top: 50px;
+`
 
 render(<App />, document.getElementById('app'));

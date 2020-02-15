@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import styled from 'styled-components'
 
 const NavBar = () => {
@@ -7,12 +8,13 @@ const NavBar = () => {
     console.log(e.target.value)
   }
 
-
   return (
     <Nav>
-      <Logo>
-        Story<span>Pal</span>
-      </Logo>
+      <Link to="/" style={{textDecoration: 'none'}}>
+        <Logo>
+          Story<span>Pal</span>
+        </Logo>
+      </Link>
 
       <Search type="text" onChange={e => onSearch(e)} placeholder="Search" />
     </Nav>
@@ -21,7 +23,7 @@ const NavBar = () => {
 
 const Logo = styled.h2`
   margin: 10px 20px;
-  color: #444;
+  color: #333;
   span {
     color: #1ecad0;
   }
@@ -35,6 +37,7 @@ const Nav = styled.div`
   width: 100%;
   height: 50px;
   border-bottom: 2px solid #eee;
+  z-index: 9000;
 `
 
 const Search = styled.input`
