@@ -89,11 +89,30 @@ const StoryRoutes = () => {
 }
 
 
+const getStories = (config) => {
+
+  const stories = []
+  for (const filePrefix in config) {
+    for (const name in config[filePrefix]) {
+      const path = `/${filePrefix}/`
+      stories.push({
+        name,
+        path,
+        fullPath: path + name,
+        code: config[filePrefix][name].toString()
+      })
+    }
+  }
+
+  return stories;
+}
+
+
 const App = () => {
 
   return (
     <BrowserRouter>
-      <NavBar />
+      <NavBar searchData={getStories(config)}/>
 
       <Page>
         <SideBar>
@@ -126,11 +145,11 @@ const SideBar = styled.div`
   height: 100%;
   width: 200px;
   margin-top: 50px;
-  border-right: 2px solid #f2f2f2;
-
 `
+
 const Content = styled.div`
   margin-top: 50px;
+  border-left: 2px solid #f2f2f2;
 `
 
 render(<App />, document.getElementById('app'));

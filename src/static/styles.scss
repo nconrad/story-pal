@@ -1,11 +1,22 @@
 body {
-  margin: 0px;
-  font-family: 'Lato', Sans-Serif;
+  margin: 0;
 }
 
+.story-pal-ui {
+  margin: 0px;
+  font-family: 'Lato', Sans-Serif;
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Arvo', Serif;
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Lato', Sans-Serif;
+  }
+
+  .primary {
+    color: #049ea4
+  }
+
+  .muted {
+    color: #888;
+  }
 }
 
 

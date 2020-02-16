@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { useParams, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 
 
@@ -49,6 +49,7 @@ const TreeItem = (props) => {
 }
 
 const activeColor = '#1ecad0'
+const activeColor2 = '#049ea4'
 
 const TreeItemRoot = styled.li`
   display: inline-flex;
@@ -59,41 +60,46 @@ const TreeItemRoot = styled.li`
   position: relative;
 
   &:hover {
-    background: #f2f2f2;
+    background: #f8f8f8;
     cursor: pointer;
   }
 
   &:hover i {
-    color: ${activeColor}
+    color: ${activeColor2}
   }
 
   &.active {
-    font-weight: 800;
+    background: #f2f2f2;
+    font-weight: 900;
   }
 
   &:before {
     content: '';
-    color: #663399;
     border-radius: 100%;
     transform: scale(0);
     position: absolute;
-    left: calc(2.5rem - 1rem);
-    top: .7rem;
+    right: 5px;
+    top: .65rem;
+    width: 0px;
+    height: 0px;
+    z-index: 10;
   }
 
   &:hover:not(.active):not(.is-root):before {
     height: 8px;
     width: 8px;
-    background-color: ${activeColor};
+    background-color: ${activeColor2};
     transition: transform .2s;
     transform: scale(1);
   }
 
   &.active:before {
     height: 8px;
-    width: 8px;
-    background-color: #666;
-    transition: transform .2s;
+    width: 15px;
+    border-radius: 40px;
+    right: 5px;
+    background-color: ${activeColor2};
+    transition: all .15s;
     transform: scale(1);
   }
 `

@@ -1,12 +1,11 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {Link} from 'react-router-dom'
 import styled from 'styled-components'
 
-const NavBar = () => {
+import SearchBox from './SearchBox'
 
-  const onSearch = (e) => {
-    console.log(e.target.value)
-  }
+const NavBar = (props) => {
+  const {searchData} = props
 
   return (
     <Nav>
@@ -16,16 +15,18 @@ const NavBar = () => {
         </Logo>
       </Link>
 
-      <Search type="text" onChange={e => onSearch(e)} placeholder="Search" />
+      <SearchBox items={searchData} />
     </Nav>
   )
 }
 
 const Logo = styled.h2`
+  text-decoration: underline;
+  text-decoration-color: #00999e;
   margin: 10px 20px;
   color: #333;
   span {
-    color: #1ecad0;
+    color: #6000e0;
   }
 `
 
@@ -40,17 +41,6 @@ const Nav = styled.div`
   z-index: 9000;
 `
 
-const Search = styled.input`
-  margin: 10px auto;
-  color: #444;
-  width: 60%;
-  display: flex;
-  padding-left: 5;
-
-  span {
-    color: #1ecad0;
-  }
-`
 
 
 export default NavBar
