@@ -1,6 +1,6 @@
 
 
-import React, {lazy, Suspense} from 'react'
+import React, {Suspense, useRef} from 'react'
 import { BrowserRouter, Switch, Route, useHistory} from 'react-router-dom'
 import { render } from 'react-dom'
 import styled from 'styled-components'
@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import NavBar from './components/NavBar'
 import Tree from './components/tree/Tree'
 import TreeItem from './components/tree/TreeItem'
+import ShadowDom from './ShadowDom'
 
 import './static/styles.scss'
 import 'material-design-icons/iconfont/material-icons.css'
@@ -16,6 +17,9 @@ import getConfig from './config'
 
 const config = getConfig()
 
+/**
+ * Home page
+ */
 const Home = () =>
   <Root>StoryPal!</Root>
 
@@ -23,14 +27,18 @@ const Root = styled.div`
   margin: 1rem;
 `
 
-
+/**
+ * Not found (404) page
+ **/
 const NotFound = () =>
   <NotFoundRoot>URL not found!</NotFoundRoot>
 
 const NotFoundRoot = styled(Root)
 
 
-
+/**
+ * Table of contents (left sidebar)
+ */
 const StoryIndex = () => {
   const history = useHistory();
 
@@ -64,12 +72,14 @@ const StoryIndex = () => {
   )
 }
 
-
+/**
+ * StoryRoutes: returns routes for all the stories
+ */
 const StoryRoutes = () => {
   const getRoute = ({storyName, filePrefix, story}) => (
     <Route
       path={`/${filePrefix}/${storyName}`} exact
-      component={story}
+      render={props => <Containerize component={story} {...props}/>}
       key={filePrefix + storyName}
     />
   )
@@ -88,7 +98,10 @@ const StoryRoutes = () => {
   )
 }
 
-
+/**
+ * gets list of story objects, including:
+ * @param {object} config
+ */
 const getStories = (config) => {
 
   const stories = []
@@ -106,6 +119,23 @@ const getStories = (config) => {
 
   return stories;
 }
+
+/**
+ * Renders story in shadow dom
+ * @param {object} props
+ */
+const Containerize = (props) => {
+  const Component = props.component;
+
+  return (
+    <div>
+      <ShadowDom>
+        <Component />
+      </ShadowDom>
+    </div>
+  )
+}
+
 
 
 const App = () => {

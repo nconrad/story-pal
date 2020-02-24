@@ -33,4 +33,6 @@ export const inputFive = () => (
 
 const Thing = styled.div`
   margin: 1rem;
+  color: #660000;
+  font-weight: bold;
 `
