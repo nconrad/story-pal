@@ -1,6 +1,6 @@
 import React, {createRef} from 'react';
-import ReactDOM from 'react-dom';
-
+import { createPortal } from 'react-dom';
+import { StyleSheetManager } from 'styled-components'
 
 export default class ShadowDom extends React.PureComponent {
   state = { init: false }
@@ -26,6 +26,11 @@ export default class ShadowDom extends React.PureComponent {
     if (!this.state.init)
       return <div ref={this.placeholder}></div>
 
-    return ReactDOM.createPortal(this.props.children, this.shadowRoot)
+    return createPortal(
+      <StyleSheetManager target={this.shadowRoot}>
+        {this.props.children}
+      </StyleSheetManager>,
+      this.shadowRoot
+    )
   }
 }

@@ -1,9 +1,9 @@
 
 
-import React, {Suspense, useRef} from 'react'
+import React, {Suspense, useRef, createRef} from 'react'
 import { BrowserRouter, Switch, Route, useHistory} from 'react-router-dom'
 import { render } from 'react-dom'
-import styled from 'styled-components'
+import styled, {StyleSheetManager} from 'styled-components'
 
 import NavBar from './components/NavBar'
 import Tree from './components/tree/Tree'
@@ -119,6 +119,7 @@ const getStories = (config) => {
 
   return stories;
 }
+
 
 /**
  * Renders story in shadow dom
