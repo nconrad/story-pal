@@ -48,8 +48,7 @@ const TreeItem = (props) => {
   )
 }
 
-const activeColor = '#1ecad0'
-const activeColor2 = '#049ea4'
+const activeColor = '#049ea4'
 
 const TreeItemRoot = styled.li`
   display: inline-flex;
@@ -65,7 +64,7 @@ const TreeItemRoot = styled.li`
   }
 
   &:hover i {
-    color: ${activeColor2}
+    color: ${activeColor}
   }
 
   &.active {
@@ -88,17 +87,16 @@ const TreeItemRoot = styled.li`
   &:hover:not(.active):not(.is-root):before {
     height: 8px;
     width: 8px;
-    background-color: ${activeColor2};
+    background-color: #888;
     transition: transform .2s;
     transform: scale(1);
   }
 
   &.active:before {
     height: 8px;
-    width: 15px;
-    border-radius: 40px;
+    width: 8px;
     right: 5px;
-    background-color: ${activeColor2};
+    background-color: ${activeColor};
     transition: all .15s;
     transform: scale(1);
   }
