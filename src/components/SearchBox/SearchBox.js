@@ -21,7 +21,7 @@ const searchOptions = {
 
 
 const SearchBox = (props) => {
-  const {items} = props
+  const {items, onEnterKey} = props
 
   const boxRef = useRef(null)
   const menuRef = useRef(null)
@@ -53,7 +53,7 @@ const SearchBox = (props) => {
     boxRef.current.focus();
   }
 
-  const handleClick = () => {
+  const handleSearchClick = () => {
     setDefaultItems()
   }
 
@@ -69,10 +69,15 @@ const SearchBox = (props) => {
     setResults(fuse.search(query))
   }
 
-  const onNavigate = () => {
+  const onMenuClick = () => {
     // reset results (closing selector) and reset query
     setResults(null)
     setQuery('')
+  }
+
+  const onMenuEnterKey = (item) => {
+    onMenuClick()
+    if (onEnterKey) onEnterKey(item)
   }
 
   const onClickOutside = (evt) => {
@@ -96,11 +101,12 @@ const SearchBox = (props) => {
 
   return (
     <SearchRoot>
-      <Search type="text"
+      <Search placeholder="Search"
+        type="text"
         ref={boxRef}
         value={query}
-        onChange={e => onSearch(e)} placeholder="Search"
-        onClick={e => handleClick(e)}
+        onChange={e => onSearch(e)}
+        onClick={e => handleSearchClick(e)}
       />
 
       {
@@ -108,7 +114,8 @@ const SearchBox = (props) => {
         <MenuContainer ref={menuRef}>
           <SearchMenu
             results={results}
-            onNavigate={onNavigate}
+            onClick={onMenuClick}
+            onEnter={item => onMenuEnterKey(item)}
           />
         </MenuContainer>
       }

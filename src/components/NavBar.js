@@ -1,11 +1,19 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 import styled from 'styled-components'
 
 import SearchBox from './SearchBox/SearchBox'
 
 const NavBar = (props) => {
   const {searchData} = props
+
+  const history = useHistory()
+
+  // Note: the searchbox has links, but needs to
+  // update history on enter keypress as well
+  const onEnterKey = item => {
+    history.push(item.fullPath)
+  }
 
   return (
     <Nav>
@@ -15,7 +23,9 @@ const NavBar = (props) => {
         </Logo>
       </Link>
 
-      <SearchBox items={searchData} />
+      <SearchBox
+        items={searchData}
+        onEnterKey={item => onEnterKey(item)} />
     </Nav>
   )
 }

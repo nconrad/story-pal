@@ -7,7 +7,6 @@ const SearchItem = (props) => {
   const {matches, item, nodeId, onClick} = props
   const {name, path} = item
 
-
   const getHighlighted = () => {
     let nameMarkup = name
     let pathMarkup = path

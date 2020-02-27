@@ -1,50 +1,39 @@
-import React, { useState, useEffect, useRef} from 'react'
-import {unmountComponentAtNode} from 'react-dom'
+import React, { useState, useEffect} from 'react'
 import styled from 'styled-components'
 
 import SearchItem from './SearchItem'
 
 
 const SearchMenu = (props) => {
-  const {results, onNavigate} = props
+  const {results, onClick, onEnter} = props
 
-  const ref = useRef()
   const [focusIdx, setFocusIdx] = useState(0)
 
 
-  const onArrowKey = (e) => {
-    if (e.keyCode == 38) { // arrow up
-      setFocusIdx(f => f - 1)
-    } else if (e.keyCode == 40) { // arrow down
-      setFocusIdx(f => f + 1)
+  const onKeyDown = (evt) => {
+    if (evt.key == 'Enter') {
+      onEnter(results[focusIdx].item)
+    } else if (evt.key == 'ArrowUp') {
+      setFocusIdx(f => f - 1 < 0 ? 0 : f - 1)
+    } else if (evt.key == 'ArrowDown') {
+      setFocusIdx(f =>
+        f + 1 >= results.length ? results.length - 1 :  f + 1
+      )
     }
   }
+
 
   useEffect(() => {
-    document.addEventListener('keydown', onArrowKey, true)
+    document.addEventListener('keydown', onKeyDown)
 
     return () => {
-      document.removeEventListener('keydown', onArrowKey, true);
+      document.removeEventListener('keydown', onKeyDown);
     }
-  }, [])
+  })
 
-  const onClickOutside = (evt) => {
-    const node = ref.current
-    if (node.contains(event.target)
-      || node.parentNode.contains(event.target))
-      return
-
-    unmountComponentAtNode(node)
-  }
-
-
-  const onSelect = (item, nodeId) => {
-    setFocusIdx(nodeId)
-    onNavigate(item)
-  }
 
   return (
-    <SearchMenuRoot ref={ref}>
+    <SearchMenuRoot>
       {
         results.map((obj, i) =>
           <SearchItem
@@ -53,7 +42,7 @@ const SearchMenu = (props) => {
             item={obj.item}
             focused={focusIdx}
             nodeId={i}
-            onClick={(item, nodeId) => onSelect(item, nodeId)}
+            onClick={item => onClick(item)}
           />
         )
       }
